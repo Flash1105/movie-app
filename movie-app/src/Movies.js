@@ -1,30 +1,39 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
-const Movies = () => {
-    const {movies, setMovies} = useState([
-    { title: 'Star Wars Episode I: The Phantom Menace', director: 'George Lucas' },
-    { title: 'Star Wars Episode II: Attack of the clones', director: 'George Lucas'},
-    { title: 'Star Wars Episode III: Revenge of the Sith', director: 'George Lucas'},
-    { title: 'Star Wars Episode IV: A New Hope', director: 'George Lucas'},
-    { title: '', director: ''},
-    { title: '', director: ''},
-    { title: '', director: ''},
-    { title: '', director: ''},
-    { title: '', director: ''},
+const MovieList = () => {
+  const [movies, setMovies] = useState([]);
 
-]);
-return (
-<div>
-    <h1>Best movies</h1>
-    <ul>
-    {movies.map((movie, index) => (
-        <li key={index}>
-            <strong>Title:</strong> {movie.title} | <strong>Director:</strong> {movie.director}
-        </li>
-    ))}
-    </ul>
-</div>
-);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('https://www.omdbapi.com/', {
+          params: {
+            apikey: '9d159e80', // Personal api key
+            s: 'Luke Skywalker', 
+          },
+        });
+        setMovies(response.data.Search);
+      } catch (error) {
+        console.error(error);
+      }
     };
 
-    export default Movies;
+    fetchData();
+  }, []);
+
+  return (
+    <div>
+      <h1>Movie List</h1>
+      <ul>
+        {movies.map((movie) => (
+          <li key={movie.imdbID}>
+            <strong>Title:</strong> {movie.Title} | <strong>Year:</strong> {movie.Year}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+export default MovieList;
