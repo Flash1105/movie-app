@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const MovieList = () => {
+const Movies = () => {
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
@@ -24,7 +24,7 @@ const MovieList = () => {
 
   return (
     <div>
-      <h1>Movie List</h1>
+      <h2>Movie List</h2>
       <ul>
         {movies.map((movie) => (
           <li key={movie.imdbID}>
@@ -36,4 +36,4 @@ const MovieList = () => {
   );
 };
 
-export default MovieList;
+export default Movies;
